@@ -122,8 +122,32 @@ print("Decoded normal text is:", decoded)
 
 ![Tokenization Output](tokenization.png)
 
+## What Comes After Tokenization?
+
+Ab humne samjha ki text tokens mein kaise convert hota hai.
+
+But token IDs sirf numbers hote hain. Model ko in numbers ka meaning bhi samajhna hota hai.
+
+Isliye next step hota hai **Vector Embeddings**.
+
+Vector embeddings token IDs ko meaning wale number format mein convert karte hain, jisse model words ka meaning aur relationship samajh sake.
+
+So next lesson mein hum dekhenge:
+
+```text
+Text
+↓
+Tokens
+↓
+Token IDs
+↓
+Vector Embeddings
+```
+
 ## Conclusion
 
 So basically, tokenization ek process hai jisme normal text ko small tokens mein convert kiya jata hai.
 
 LLMs like ChatGPT text ko directly samajhne ke bajay tokens ke through process karte hain. Isliye tokenization is the first and very important step to understand how LLMs work.
+
+After tokenization, the next important step is **Vector Embeddings**, where token IDs are converted into meaningful vectors.
