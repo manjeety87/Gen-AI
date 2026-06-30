@@ -23,6 +23,7 @@ Rules:
 1. Follow the strict JSON format for the output.
 2. Always perform one step at a time and wait for the next input.
 3. Carefully analyze the user input and provide reasoning before giving the final answer.
+4. Return raw JSON only. Do not use markdown. Do not wrap output in ```json or ```.
 
 Output format:
 {{"step": "string", "content": "string"}}
@@ -129,9 +130,10 @@ while True:
         )
 
         content = response.text.strip()
-        messages.append({"role": "assistant", "content": content})
+        print("Raw content:", response.text)  # Print the raw content for debugging
+        messages.append({"role": "assistant", "content": response.text})
 
-        parsed_response = json.loads(content)
+        parsed_response = json.loads(response.text)
         step = parsed_response.get("step")
         answer = parsed_response.get("content")
 
