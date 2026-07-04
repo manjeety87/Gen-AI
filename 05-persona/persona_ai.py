@@ -85,52 +85,33 @@ messages = [
     {"role": "system", "content": SYSTEM_PROMPT}
 ]
 
-query = input("Ask something: ")
-messages.append({"role": "user", "content": query})
 
-
-def get_openai_response(messages):
+def get_persona_response(messages):
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        response_format={"type": "json_object"},
-        messages=messages
+        model="gpt-5.4-mini",
+        messages=messages,
+        temperature=0.8
     )
+
     return response.choices[0].message.content
 
-def get_gemini_response(messages):
-    response = gemeniClient.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=json.dumps(messages),
-    )
-    return response.text
 
 while True:
-    response =get_openai_response(messages)
-
-    # Add assistant response back to messages
-    messages.append({"role": "assistant", "content": response})
-
-    parsed_response = json.loads(response)
-
-    step = parsed_response.get("step")
-    answer = parsed_response.get("content")
+    userInput = input("User: ")
     
-    if step == "think" or step == "think again" or step == "think several times":
-        #Make the GEMINI API call or CLAUDE and append the result as validate.
-        try:
-            geminiRes = get_gemini_response(messages)
-            messages.append({"role": "assistant", "content": geminiRes})
-            continue
-        except errors.ClientError as e:
-            print("API limit error. Wait and try again.")
-            time.sleep(5)
+    if userInput.lower() in ["exit", "quit", "bye"]:
+        print("Manjeet: By 🥹✌🏼")
+        break
+    
+    
+    messages.append({"role": "user", "content": userInput})
+    
+    reply = get_persona_response(messages)
 
-    if step != "result":
-        print(f"\n🧠 {step}: {answer}\n")
+    messages.append({
+        "role": "assistant",
+        "content": reply
+    })
 
-        # Tell model to continue next step
-        messages.append({"role": "user", "content": "Continue with the next step."})
-        continue
-
-    print(f"\n🤖 Final Answer: {answer}\n")
-    break
+    print(f"Manjeet: {reply}\n")
+    
